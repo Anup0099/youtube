@@ -1,15 +1,17 @@
-import React from "react";
-import styled from "styled-components";
-import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
-import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
-import { Link } from "react-router-dom";
+import React from 'react'
+import styled from 'styled-components'
+import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined'
+import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined'
+import { Link } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import VideoCallOutlinedIcon from "@mui/icons-material/VideoCallOutlined";
 
 const Container = styled.div`
   position: sticky;
   top: 0;
   background-color: ${({ theme }) => theme.bgLighter};
   height: 56px;
-`;
+`
 const Wrapper = styled.div`
   display: flex;
   align-items: center;
@@ -17,7 +19,7 @@ const Wrapper = styled.div`
   padding: 0px 20px;
   justify-content: flex-end;
   position: relative;
-`;
+`
 const Search = styled.div`
   width: 40%;
   position: absolute;
@@ -31,11 +33,11 @@ const Search = styled.div`
   border: 1px solid #ccc;
 
   border-radius: 3px;
-`;
+`
 const SearchInput = styled.input`
   border: none;
   background-color: transparent;
-`;
+`
 const Button = styled.button`
   padding: 5px 15px;
   background-color: transparent;
@@ -49,8 +51,23 @@ const Button = styled.button`
   display: flex;
   align-items: center;
   gap: 5px;
-`;
+`
+const User = styled.div`
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+  gap: 10px;
+  color: ${({ theme }) => theme.text};
+`
+const Avavtar = styled.div`
+width:32px ;
+height:32px ;
+border-radius: 50%;
+background-color: #999;
+
+`
 export const Navbar = () => {
+  const { currentUser } = useSelector((state) => state.user)
   return (
     <Container>
       <Wrapper>
@@ -58,13 +75,21 @@ export const Navbar = () => {
           <SearchInput placeholder="Search" />
           <SearchOutlinedIcon />
         </Search>
-        <Link to="signin" style={{ textDecoration: "none" }}>
-          <Button>
-            <AccountCircleOutlinedIcon />
-            SIGN IN
-          </Button>
-        </Link>
+        {currentUser ? (
+          <User>
+            <VideoCallOutlinedIcon />
+            <Avavtar />
+            {currentUser.name}
+          </User>
+        ) : (
+          <Link to="signin" style={{ textDecoration: 'none' }}>
+            <Button>
+              <AccountCircleOutlinedIcon />
+              SIGN IN
+            </Button>
+          </Link>
+        )}
       </Wrapper>
     </Container>
-  );
-};
+  )
+}
